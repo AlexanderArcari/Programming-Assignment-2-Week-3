@@ -5,6 +5,7 @@
 #include <string>
 #include <iomanip>
 #include <algorithm> // library for the transform function that we use to change from lowercase to uppercase
+#include <fstream>
 
 using namespace std;
 
@@ -17,8 +18,9 @@ int main()
     string destination;
     double orderTotal;
     string welcome;
-    string fragility;
+    char fragility;
     double totalShippingCost;
+    ofstream outData;
 
     // format welcome message 
 
@@ -31,18 +33,18 @@ int main()
     cout << endl;
 
     // Take inputs and format
-    
+
     //Item input 
 
-    cout << left << "Please enter the item name (no spaces)" << setfill('.') << setw(12) << right << ":"; 
+    cout << left << "Please enter the item name (no spaces)" << setfill('.') << setw(12) << right << ":";
     cin >> item;
-   
+
     //Fragility input
 
     cout << left << "Is the item fragile? (y=yes/n=no)" << setfill('.') << setw(17) << right << ":";
     cin >> fragility; // Make decision structure here to exit program if they input something other than yes/no for fragility? 
 
-    if (fragility != "y" && fragility != "Y" && fragility != "n" && fragility != "N") {
+    if (fragility != 'y' && fragility != 'Y' && fragility != 'n' && fragility != 'N') {
         cout << endl;
         cout << "Invalid entry, exiting";
         exit(0);
@@ -70,114 +72,88 @@ int main()
 
     // Begin Nested Decision Structures to determine shipping costs
 
-    if (fragility == "y" || fragility == "Y") { //this will add $2 to each of the shipping costs for each country at each order price
+    if (orderTotal < 50.00) { //if the order is under $50
 
-        if (orderTotal < 50.00) { 
-
-            if (destination == "usa") {
-                shippingCost = (8);
-            } else if (destination == "can") {
-                shippingCost = (10);
-            } else if (destination == "aus") {
-                shippingCost = (12);
-            } else {
-                cout << "Invalid Entry, exiting" << endl;
-            }
-
-        } else if (orderTotal > 50 && orderTotal <= 100) {
-
-            if (destination == "usa") {
-                shippingCost = (11);
-            } else if (destination == "can") {
-                shippingCost = (14);
-            } else if (destination == "aus") {
-                shippingCost = (16);
-            } else {
-                cout << "Invalid Entry, exiting" << endl;
-            }
-
-        } else if (orderTotal > 100 && orderTotal <= 150) {
-
-            if (destination == "usa") {
-                shippingCost = (14);
-            } else if (destination == "can") {
-                shippingCost = (17);
-            } else if (destination == "aus") {
-                shippingCost = (19);
-            } else {
-                cout << "Invalid Entry, exiting" << endl;
-            }
-
-        } else {
-            shippingCost = 0.00;
+        if (destination == "usa") {
+            shippingCost = (8);
         }
-
-    } else if (fragility == "n" || fragility == "N") { // this removes the $2.00 added shipping cost
-
-        if (orderTotal < 50.00) {
-
-            if (destination == "usa") {
-                shippingCost = (6);
-            } else if (destination == "can") {
-                shippingCost = (8);
-            } else if (destination == "aus") {
-                shippingCost = (10);
-            } else {
-                cout << "Invalid Entry, exiting" << endl;
-            }
-
-        } else if (orderTotal > 50 && orderTotal <= 100) {
-
-            if (destination == "usa") {
-                shippingCost = (9);
-            } else if (destination == "can") {
-                shippingCost = (12);
-            } else if (destination == "aus") {
-                shippingCost = (14);
-            } else {
-                cout << "Invalid Entry, exiting" << endl;
-            }
-
-        } else if (orderTotal > 100 && orderTotal <= 150) {
-
-            if (destination == "usa") {
-                shippingCost = (12);
-            } else if (destination == "can") {
-                shippingCost = (15);
-            } else if (destination == "aus") {
-                shippingCost = (17);
-            } else {
-                cout << "Invalid Entry, exiting" << endl;
-            }
-
-        } else {
-            shippingCost = 0.00;
+        else if (destination == "can") {
+            shippingCost = (10);
         }
-
-    } else {
-
-        cout << "Invalid Entry, exiting" << endl;
+        else if (destination == "aus") {
+            shippingCost = (12);
+        }
+        else {
+            cout << "Invalid Entry, exiting" << endl;
+        }
+        //if the order is between $50 and $100
     }
-    
-    
-    //Output result of Nested Decision Structure for shipping cost
+    else if (orderTotal > 50 && orderTotal <= 100) {
+
+        if (destination == "usa") {
+            shippingCost = (11);
+        }
+        else if (destination == "can") {
+            shippingCost = (14);
+        }
+        else if (destination == "aus") {
+            shippingCost = (16);
+        }
+        else {
+            cout << "Invalid Entry, exiting" << endl;
+        }
+        //if the order is between $100 and $150
+    }
+    else if (orderTotal > 100 && orderTotal <= 150) {
+
+        if (destination == "usa") {
+            shippingCost = (14);
+        }
+        else if (destination == "can") {
+            shippingCost = (17);
+        }
+        else if (destination == "aus") {
+            shippingCost = (19);
+        }
+        else {
+            cout << "Invalid Entry, exiting" << endl;
+        }
+        //if the order is over $150
+    }
+    else {
+        shippingCost = 0.00;
+    }
+    // Decision structure to apply upcharge if order is fragile
+    if (fragility == 'y' || fragility == 'Y') {
+        shippingCost += 2.00;
+    }
+
+    //Output result of Nested Decision Structure for shipping cost to console and Order.txt
+    outData.open("Order.txt");
     cout << fixed << setprecision(2);
+    outData << fixed << setprecision(2);
     cout << left << "Your shipping cost is" << setfill('.') << setw(20) << right << "$" << shippingCost << endl;
+    outData << left << "Your shipping cost is" << setfill('.') << setw(20) << right << "$" << shippingCost << endl;
+    
 
     //Change destination to uppercase using transform function then output destination
     transform(destination.begin(), destination.end(), destination.begin(), ::toupper);
     cout << left << "You are shipping to" << setfill('.') << setw(21) << right << "" << destination << endl;
+    outData << left << "You are shipping to" << setfill('.') << setw(21) << right << "" << destination << endl;
+
 
     // Calculate total shipping cost and Output total
 
     totalShippingCost = shippingCost + orderTotal;
     cout << left << "Your total shipping costs are" << setfill('.') << setw(12) << right << "$" << totalShippingCost << endl;
+    outData << left << "Your total shipping costs are" << setfill('.') << setw(12) << right << "$" << totalShippingCost << endl;
     cout << endl;
+    outData << endl;
 
     // Output Thank you line
 
     cout << left << setfill('-') << setw(40) << right << "" << "Thank you!" << endl;
+    outData << left << setfill('-') << setw(40) << right << "" << "Thank you!" << endl;
 
     return 0;
 }
-
