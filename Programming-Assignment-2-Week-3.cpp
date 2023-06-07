@@ -66,22 +66,25 @@ int main()
 
     cout << endl;
 
-    // Print Item Output and Change from LowerCase to uppercase
+    // Open Text File, Print Item Output and Change from LowerCase to uppercase
+
+    outData.open("Order.txt");
     transform(item.begin(), item.end(), item.begin(), ::toupper);
     cout << left << "Your item is" << setfill('.') << setw(28) << right << "" << item << endl;
+    outData << left << "Your item is" << setfill('.') << setw(28) << right << "" << item << endl; // send output to file
 
     // Begin Nested Decision Structures to determine shipping costs
 
     if (orderTotal < 50.00) { //if the order is under $50
 
         if (destination == "usa") {
-            shippingCost = (8);
+            shippingCost = (6);
         }
         else if (destination == "can") {
-            shippingCost = (10);
+            shippingCost = (8);
         }
         else if (destination == "aus") {
-            shippingCost = (12);
+            shippingCost = (10);
         }
         else {
             cout << "Invalid Entry, exiting" << endl;
@@ -91,13 +94,13 @@ int main()
     else if (orderTotal > 50 && orderTotal <= 100) {
 
         if (destination == "usa") {
-            shippingCost = (11);
+            shippingCost = (9);
         }
         else if (destination == "can") {
-            shippingCost = (14);
+            shippingCost = (12);
         }
         else if (destination == "aus") {
-            shippingCost = (16);
+            shippingCost = (14);
         }
         else {
             cout << "Invalid Entry, exiting" << endl;
@@ -107,13 +110,13 @@ int main()
     else if (orderTotal > 100 && orderTotal <= 150) {
 
         if (destination == "usa") {
-            shippingCost = (14);
+            shippingCost = (12);
         }
         else if (destination == "can") {
-            shippingCost = (17);
+            shippingCost = (15);
         }
         else if (destination == "aus") {
-            shippingCost = (19);
+            shippingCost = (17);
         }
         else {
             cout << "Invalid Entry, exiting" << endl;
@@ -129,7 +132,6 @@ int main()
     }
 
     //Output result of Nested Decision Structure for shipping cost to console and Order.txt
-    outData.open("Order.txt");
     cout << fixed << setprecision(2);
     outData << fixed << setprecision(2);
     cout << left << "Your shipping cost is" << setfill('.') << setw(20) << right << "$" << shippingCost << endl;
@@ -154,6 +156,8 @@ int main()
 
     cout << left << setfill('-') << setw(40) << right << "" << "Thank you!" << endl;
     outData << left << setfill('-') << setw(40) << right << "" << "Thank you!" << endl;
+
+    outData.close(); // close txt file
 
     return 0;
 }
