@@ -89,7 +89,7 @@ int main()
         else {
             cout << "Invalid Entry, exiting" << endl;
         }
-        //if the order is between $50 and $100
+        //if the order is greater than $50 and less than or equal to $100
     }
     else if (orderTotal > 50 && orderTotal <= 100) {
 
