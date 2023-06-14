@@ -22,6 +22,11 @@ int main()
     double totalShippingCost;
     ofstream outData;
 
+    // Create constant values to remove magic numbers 
+    const double lowerLimit = 50.00;
+    const double midLimit = 100.00;
+    const double upperLimit = 150.00;
+
     // format welcome message 
 
     welcome = "ITCS 2530 - Programming Assignment for week #3";
@@ -75,7 +80,7 @@ int main()
 
     // Begin Nested Decision Structures to determine shipping costs
 
-    if (orderTotal < 50.00) { //if the order is under $50
+    if (orderTotal < lowerLimit) { //if the order is under $50
 
         if (destination == "usa") {
             shippingCost = (6);
@@ -91,7 +96,7 @@ int main()
         }
         //if the order is greater than $50 and less than or equal to $100
     }
-    else if (orderTotal > 50 && orderTotal <= 100) {
+    else if (orderTotal > lowerLimit && orderTotal <= midLimit) {
 
         if (destination == "usa") {
             shippingCost = (9);
@@ -107,7 +112,7 @@ int main()
         }
         //if the order is between $100 and $150
     }
-    else if (orderTotal > 100 && orderTotal <= 150) {
+    else if (orderTotal > midLimit && orderTotal <= upperLimit) {
 
         if (destination == "usa") {
             shippingCost = (12);
